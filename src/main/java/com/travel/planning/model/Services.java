@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "services")
 @Data
@@ -21,4 +23,9 @@ public class Services {
     @ManyToOne
     @JoinColumn(name = "city", referencedColumnName = "name")
     private Cities city;
+    @ManyToMany
+    @JoinTable(name = "travel_services",
+            joinColumns = @JoinColumn(name = "service_id"),
+            inverseJoinColumns = @JoinColumn(name = "travel_id"))
+    private List<Travel> travels;
 }

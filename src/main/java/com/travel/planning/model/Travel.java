@@ -30,7 +30,9 @@ public class Travel {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToMany
-    @JoinColumn(name = "travel_id")
+    @ManyToMany
+    @JoinTable(name = "travel_services",
+            joinColumns = @JoinColumn(name = "travel_id"),
+            inverseJoinColumns = @JoinColumn(name = "service_id"))
     private List<Services> services;
 }

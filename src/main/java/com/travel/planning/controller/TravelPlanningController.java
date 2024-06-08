@@ -68,5 +68,21 @@ public class TravelPlanningController {
         return travelPlanningService.getServices(userAdapter.getUser());
     }
 
+    @Operation(summary = "Book a service for your travel, authorization required",
+            security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponse(responseCode = "200", description = "Updated travel", content = @Content(
+            schema = @Schema(implementation = TravelDTO.class),
+            examples = @ExampleObject(value = "{\"departure\":\"Kiev\",\"destination\":\"Warsaw\"," +
+                    "\"travel_time\":\"2024-12-12T12:12:12\",\"services\":[{\"name\":\"Hotel\",\"city\":\"Kiev\"}]}")))
+    @ApiResponse(responseCode = "400", description = "You haven't planned a travel, there is no service with that name",
+            content = @Content)
+    @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
+
+    @PostMapping("/services/book")
+    public TravelDTO bookService(@Valid @RequestBody ServiceRequest serviceRequest,
+                                   @AuthenticationPrincipal UserAdapter userAdapter) {
+        return travelPlanningService.bookService(serviceRequest, userAdapter.getUser());
+    }
+
     // http://localhost:8080/swagger-ui/index.html to access swagger
 }

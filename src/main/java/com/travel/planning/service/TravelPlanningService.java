@@ -1,6 +1,7 @@
 package com.travel.planning.service;
 
 import com.travel.planning.configuration.Mapper;
+import com.travel.planning.dto.request.ServiceRequest;
 import com.travel.planning.dto.request.TravelRequest;
 import com.travel.planning.dto.response.ServicesDTO;
 import com.travel.planning.dto.response.TravelDTO;
@@ -71,5 +72,21 @@ public class TravelPlanningService {
         return services.stream()
                 .map(Mapper::mapToServicesDTO)
                 .toList();
+    }
+
+    @Transactional
+    public TravelDTO bookService(ServiceRequest serviceRequest, User user) {
+        Travel travel = travelRepository.findTravelByUser(user)
+                .orElseThrow(() -> new TravelException("You haven't planned a travel"));
+        Services service = servicesRepository.findByName(serviceRequest.getName())
+                .orElseThrow(() -> new ServicesException("There is no service with that name"));
+
+        if (Optional.ofNullable(travel.getServices()).isEmpty()) {
+            travel.setServices(List.of(service));
+        }
+        travel.getServices().add(service);
+        travelRepository.save(travel);
+
+        return Mapper.mapToTravelDTO(travel);
     }
 }
