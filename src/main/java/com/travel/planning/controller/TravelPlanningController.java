@@ -126,5 +126,19 @@ public class TravelPlanningController {
         return travelPlanningService.deleteTrips(deleteRequest);
     }
 
+    @Operation(summary = "Add new service, admin authority required",
+            security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponse(responseCode = "200", description = "Added service", content = @Content(
+            schema = @Schema(implementation = ServicesDTO.class),
+            examples = @ExampleObject(value = "[{\"name\":\"Hotel\",\"city\":\"Kiev\"}]")))
+    @ApiResponse(responseCode = "400", description = "The service already exists", content = @Content)
+    @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
+    @ApiResponse(responseCode = "403", description = "Wrong role", content = @Content)
+
+    @PostMapping("/services/add")
+    public ServicesDTO addService(@RequestBody AddServiceRequest serviceRequest) {
+        return travelPlanningService.addService(serviceRequest);
+    }
+
     // http://localhost:8080/swagger-ui/index.html to access swagger
 }

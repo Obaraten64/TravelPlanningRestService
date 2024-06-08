@@ -1,6 +1,7 @@
 package com.travel.planning.service;
 
 import com.travel.planning.configuration.Mapper;
+import com.travel.planning.dto.request.AddServiceRequest;
 import com.travel.planning.dto.request.DeleteRequest;
 import com.travel.planning.dto.request.ServiceRequest;
 import com.travel.planning.dto.request.TravelRequest;
@@ -57,7 +58,7 @@ public class TravelPlanningService {
     }
 
     public List<ServicesDTO> getServices(User user) {
-        Travel travel = travelRepository.findTravelByUser(user).orElse(new Travel());
+        Travel travel = travelRepository.findTravelByUser(user).orElseGet(Travel::new);
 
         List<Services> services;
         if (Optional.ofNullable(travel.getDestination()).isPresent()) {
@@ -121,5 +122,19 @@ public class TravelPlanningService {
         travelRepository.deleteAll(travels);
 
         return deleted;
+    }
+
+    @Transactional
+    public ServicesDTO addService(AddServiceRequest addServiceRequest) {
+        Cities city = citiesRepository.findCitiesByName(addServiceRequest.getCity())
+                .orElseGet(() -> citiesRepository.save(Cities.builder().name(addServiceRequest.getCity()).build()));
+
+        if (servicesRepository.findByNameAndCity(addServiceRequest.getName(), city).isPresent()) {
+            throw new ServicesException("The service already exists");
+        }
+        Services service = servicesRepository.save(Services.builder().name(addServiceRequest.getName())
+                .city(city).build());
+
+        return Mapper.mapToServicesDTO(service);
     }
 }

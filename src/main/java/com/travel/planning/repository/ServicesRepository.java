@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface ServicesRepository extends JpaRepository<Services,Long> {
     List<Services> findAllByCity(Cities city);
     Optional<Services> findByName(String name);
+    Optional<Services> findByNameAndCity(String name, Cities city);
 }

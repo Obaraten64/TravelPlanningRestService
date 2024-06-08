@@ -24,7 +24,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/travel/all").hasAuthority(Role.ADMIN.toString())
-                        .requestMatchers(HttpMethod.DELETE, "/travel/delete").hasAuthority(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.DELETE, "/travel/delete")
+                            .hasAuthority(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.POST, "/services/add")
+                            .hasAuthority(Role.ADMIN.toString())
                         .requestMatchers("/travel/**").hasAnyAuthority(allRoles)
                         .requestMatchers("/services/**").hasAnyAuthority(allRoles)
                         .requestMatchers("/swagger-ui/**").permitAll()
