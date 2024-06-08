@@ -33,8 +33,12 @@ public class TravelPlanningService {
 
     @Transactional
     public TravelDTO createTravel(TravelRequest travelRequest, User user) {
+        if (travelRepository.findTravelByUser(user).isPresent()) {
+            throw new TravelException("You already planned travel");
+        }
+
         Optional<Cities> departure = citiesRepository.findCitiesByName(travelRequest.getDeparture());
-        Optional<Cities> destination = citiesRepository.findCitiesByName(travelRequest.getDeparture());
+        Optional<Cities> destination = citiesRepository.findCitiesByName(travelRequest.getDestination());
         if (departure.isEmpty() || destination.isEmpty()) {
             throw new TravelException("We cannot pick you up from your city or deliver you to your destination");
         }

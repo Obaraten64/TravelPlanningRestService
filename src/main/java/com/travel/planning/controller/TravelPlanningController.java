@@ -45,7 +45,7 @@ public class TravelPlanningController {
             schema = @Schema(implementation = TravelDTO.class),
             examples = @ExampleObject(value = "{\"departure\":\"Kiev\",\"destination\":\"Warsaw\"," +
                             "\"travel_time\":\"2024-12-12T12:12:12\"}")))
-    @ApiResponse(responseCode = "400", description = "No city", content = @Content)
+    @ApiResponse(responseCode = "400", description = "No city or travel already planned", content = @Content)
     @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
 
     @PostMapping("/travel/create")
