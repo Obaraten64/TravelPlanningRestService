@@ -34,7 +34,7 @@ public class TravelPlanningService {
     @Transactional
     public TravelDTO createTravel(TravelRequest travelRequest, User user) {
         if (travelRepository.findTravelByUser(user).isPresent()) {
-            throw new TravelException("You already planned travel");
+            throw new TravelException("You have already planned your travel");
         }
 
         Optional<Cities> departure = citiesRepository.findCitiesByName(travelRequest.getDeparture());
@@ -61,7 +61,6 @@ public class TravelPlanningService {
         List<Services> services;
         if (Optional.ofNullable(travel.getDestination()).isPresent()) {
             services = servicesRepository.findAllByCity(travel.getDestination());
-            System.out.println("cock");
         } else {
             services = servicesRepository.findAll();
         }
