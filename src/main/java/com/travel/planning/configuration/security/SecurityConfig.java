@@ -23,6 +23,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/travel/add").hasAuthority(Role.ADMIN.toString())
                         .requestMatchers("/travel/**").hasAnyAuthority(allRoles)
                         .requestMatchers("/services/**").hasAnyAuthority(allRoles)
                         .requestMatchers("/swagger-ui/**").permitAll()

@@ -97,5 +97,19 @@ public class TravelPlanningController {
         return new ResponseEntity<>("You haven't planned a travel", HttpStatus.BAD_REQUEST);
     }
 
+    @Operation(summary = "Get a list of all trips, admin authority required",
+            security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponse(responseCode = "200", description = "List of trips", content = @Content(
+            schema = @Schema(implementation = TravelDTO.class),
+            examples = @ExampleObject(value = "{\"departure\":\"Kiev\",\"destination\":\"Warsaw\"," +
+                    "\"travel_time\":\"2024-12-12T12:12:12\",\"services\":[{\"name\":\"Hotel\",\"city\":\"Kiev\"}]}")))
+    @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
+    @ApiResponse(responseCode = "403", description = "Wrong role", content = @Content)
+
+    @GetMapping("/travel/all")
+    public List<TravelDTO> getTravels() {
+        return travelPlanningService.getTravels();
+    }
+
     // http://localhost:8080/swagger-ui/index.html to access swagger
 }

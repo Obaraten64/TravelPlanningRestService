@@ -98,4 +98,10 @@ public class TravelPlanningService {
         travelRepository.delete(travel.get());
         return true;
     }
+
+    public List<TravelDTO> getTravels() {
+        return travelRepository.findAll().stream()
+                .map(Mapper::mapToTravelDTO)
+                .toList();
+    }
 }
