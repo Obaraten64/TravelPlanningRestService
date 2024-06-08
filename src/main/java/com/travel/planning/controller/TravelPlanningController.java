@@ -8,7 +8,6 @@ import com.travel.planning.service.TravelPlanningService;
 import com.travel.planning.service.UserDetailsServiceImp;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
