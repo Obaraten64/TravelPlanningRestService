@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TravelPlanningApplication {
 	//TODO: Service realization
-		//TODO: complete travel
 		//TODO: add service(admin only)
 		//TODO: remove travel(admin only)
 	//TODO: Unit tests

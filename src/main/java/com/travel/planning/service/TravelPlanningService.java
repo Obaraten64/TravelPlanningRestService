@@ -14,7 +14,6 @@ import com.travel.planning.model.User;
 import com.travel.planning.repository.CitiesRepository;
 import com.travel.planning.repository.ServicesRepository;
 import com.travel.planning.repository.TravelRepository;
-import com.travel.planning.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -30,7 +29,6 @@ public class TravelPlanningService {
     private final CitiesRepository citiesRepository;
     private final ServicesRepository servicesRepository;
     private final TravelRepository travelRepository;
-    private final UserRepository userRepository;
 
     @Transactional
     public TravelDTO createTravel(TravelRequest travelRequest, User user) {
@@ -88,5 +86,16 @@ public class TravelPlanningService {
         travelRepository.save(travel);
 
         return Mapper.mapToTravelDTO(travel);
+    }
+
+    @Transactional
+    public boolean completeTravel(User user) {
+        Optional<Travel> travel = travelRepository.findTravelByUser(user);
+        if (travel.isEmpty()) {
+            return false;
+        }
+
+        travelRepository.delete(travel.get());
+        return true;
     }
 }

@@ -84,5 +84,18 @@ public class TravelPlanningController {
         return travelPlanningService.bookService(serviceRequest, userAdapter.getUser());
     }
 
+    @Operation(summary = "Complete the journey, authorization required", security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponse(responseCode = "200", description = "What a beautiful trip", content = @Content)
+    @ApiResponse(responseCode = "400", description = "You haven't planned a travel", content = @Content)
+    @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
+
+    @PostMapping("/travel/complete")
+    public ResponseEntity<String> completeTravel(@AuthenticationPrincipal UserAdapter userAdapter) {
+        if (travelPlanningService.completeTravel(userAdapter.getUser())) {
+            return new ResponseEntity<>("What a beautiful trip", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("You haven't planned a travel", HttpStatus.BAD_REQUEST);
+    }
+
     // http://localhost:8080/swagger-ui/index.html to access swagger
 }
