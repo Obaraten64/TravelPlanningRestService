@@ -2,9 +2,12 @@ package com.travel.planning.service;
 
 import com.travel.planning.configuration.Mapper;
 import com.travel.planning.dto.request.TravelRequest;
+import com.travel.planning.dto.response.ServicesDTO;
 import com.travel.planning.dto.response.TravelDTO;
+import com.travel.planning.exception.ServicesException;
 import com.travel.planning.exception.TravelException;
 import com.travel.planning.model.Cities;
+import com.travel.planning.model.Services;
 import com.travel.planning.model.Travel;
 import com.travel.planning.model.User;
 import com.travel.planning.repository.CitiesRepository;
@@ -17,6 +20,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,5 +49,24 @@ public class TravelPlanningService {
         travelRepository.save(travel);
 
         return Mapper.mapToTravelDTO(travel);
+    }
+
+    public List<ServicesDTO> getServices(User user) {
+        Travel travel = travelRepository.findTravelByUser(user).orElse(new Travel());
+
+        List<Services> services;
+        if (Optional.ofNullable(travel.getDestination()).isPresent()) {
+            services = servicesRepository.findAllByCity(travel.getDestination());
+            System.out.println("cock");
+        } else {
+            services = servicesRepository.findAll();
+        }
+
+        if (services.isEmpty()) {
+            throw new ServicesException("No services in the city");
+        }
+        return services.stream()
+                .map(Mapper::mapToServicesDTO)
+                .toList();
     }
 }

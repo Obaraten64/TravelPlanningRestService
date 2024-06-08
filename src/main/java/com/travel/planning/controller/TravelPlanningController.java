@@ -2,6 +2,7 @@ package com.travel.planning.controller;
 
 import com.travel.planning.configuration.security.UserAdapter;
 import com.travel.planning.dto.request.*;
+import com.travel.planning.dto.response.ServicesDTO;
 import com.travel.planning.dto.response.TravelDTO;
 import com.travel.planning.service.TravelPlanningService;
 import com.travel.planning.service.UserDetailsServiceImp;
@@ -21,6 +22,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -50,6 +53,19 @@ public class TravelPlanningController {
                                                @AuthenticationPrincipal UserAdapter userAdapter) {
         return new ResponseEntity<>(travelPlanningService.createTravel(travelRequest, userAdapter.getUser()),
                 HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Get a list of services in the destination city or all of them, authorization required",
+            security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponse(responseCode = "200", description = "List of services", content = @Content(
+            schema = @Schema(implementation = ServicesDTO.class),
+            examples = @ExampleObject(value = "[{\"name\":\"Hotel\",\"city\":\"Kiev\"}]")))
+    @ApiResponse(responseCode = "400", description = "No services in the city", content = @Content)
+    @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
+
+    @GetMapping("/services")
+    public List<ServicesDTO> getServices(@AuthenticationPrincipal UserAdapter userAdapter) {
+        return travelPlanningService.getServices(userAdapter.getUser());
     }
 
     // http://localhost:8080/swagger-ui/index.html to access swagger

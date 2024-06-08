@@ -1,5 +1,6 @@
 package com.travel.planning.controller.advice;
 
+import com.travel.planning.exception.ServicesException;
 import com.travel.planning.exception.TravelException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,6 +24,12 @@ public class TravelPlanningAdvice {
     @ExceptionHandler(TravelException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleTravelException(TravelException exception) {
+        return Map.of("error", exception.getMessage());
+    }
+
+    @ExceptionHandler(ServicesException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleServicesException(ServicesException exception) {
         return Map.of("error", exception.getMessage());
     }
 }

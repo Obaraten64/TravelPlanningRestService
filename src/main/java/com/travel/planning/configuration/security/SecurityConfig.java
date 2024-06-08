@@ -24,6 +24,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
                         .requestMatchers("/travel/**").hasAnyAuthority(allRoles)
+                        .requestMatchers(HttpMethod.GET, "/services").hasAnyAuthority(allRoles)
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .anyRequest().denyAll()
