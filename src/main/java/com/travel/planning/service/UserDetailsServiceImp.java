@@ -43,7 +43,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
                 .build();
         userRepository.save(user);
 
-        return new ResponseEntity<>("Successfully registered, your email is your username", HttpStatus.OK);
+        return new ResponseEntity<>("Welcome! Your email is your username", HttpStatus.CREATED);
     }
 
     @Override

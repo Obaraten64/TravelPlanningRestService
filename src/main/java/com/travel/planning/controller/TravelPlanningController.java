@@ -22,7 +22,7 @@ public class TravelPlanningController {
     private final UserDetailsServiceImp userDetailsService;
 
     @Operation(summary = "Register new user")
-    @ApiResponse(responseCode = "200", description = "User registered", content = @Content)
+    @ApiResponse(responseCode = "201", description = "User registered", content = @Content)
     @ApiResponse(responseCode = "400", description = "Wrong role or user already registered", content = @Content)
 
     @PostMapping("/user/register")

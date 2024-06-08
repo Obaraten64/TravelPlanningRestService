@@ -9,6 +9,7 @@ public class TravelPlanningApplication {
 		//TODO: create travel
 		//TODO: list of services
 		//TODO: book service
+		//TODO: check travel
 		//TODO: complete travel
 		//TODO: add service(admin only)
 		//TODO: remove travel(admin only)
@@ -17,8 +18,7 @@ public class TravelPlanningApplication {
 		//TODO: service test
 		//TODO: controller test
 	//TODO: IT test
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		SpringApplication.run(TravelPlanningApplication.class, args);
 	}
 }

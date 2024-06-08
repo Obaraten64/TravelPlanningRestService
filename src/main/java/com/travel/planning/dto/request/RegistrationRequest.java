@@ -10,13 +10,13 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class RegistrationRequest {
-    @Schema(example = "vova@gmail.com")
+    @Schema(example = "misha@gmail.com")
     @NotBlank(message = "Write down your email!")
     private String email;
     @Schema(example = "1234")
     @NotBlank(message = "Write down your password!")
     private String password;
-    @Schema(example = "parent")
+    @Schema(example = "traveler")
     @NotBlank(message = "Write down your role!")
     private String role;
 }

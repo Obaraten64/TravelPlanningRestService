@@ -37,10 +37,9 @@ public class UserDetailsServiceTest {
     UserDetailsServiceImp userDetailsService;
 
     @Test
-    @DisplayName("Test for registration")
     void testRegistration() {
-        ResponseEntity<String> expect = new ResponseEntity<>("Successfully registered, your email is your username",
-                HttpStatus.OK);
+        ResponseEntity<String> expect = new ResponseEntity<>("Welcome! Your email is your username",
+                HttpStatus.CREATED);
         RegistrationRequest registrationRequest = new RegistrationRequest(
                 "misha@gmail.com",
                 "1234",
@@ -51,7 +50,6 @@ public class UserDetailsServiceTest {
     }
 
     @Test
-    @DisplayName("Test for registration, already registered")
     void testRegistration_AlreadyRegistered() {
         ResponseEntity<String> expect = new ResponseEntity<>("Such a user already exists!",
                 HttpStatus.BAD_REQUEST);
@@ -68,7 +66,6 @@ public class UserDetailsServiceTest {
     }
 
     @Test
-    @DisplayName("Test for registration, wrong role")
     void testRegistration_WrongRole() {
         ResponseEntity<String> expect = new ResponseEntity<>("Wrong role provided",
                 HttpStatus.BAD_REQUEST);
@@ -82,7 +79,6 @@ public class UserDetailsServiceTest {
     }
 
     @Test
-    @DisplayName("Test for authentication")
     void testAuthentication() {
         String email = "misha@gmail.com";
         User user = new User();
@@ -95,7 +91,6 @@ public class UserDetailsServiceTest {
     }
 
     @Test
-    @DisplayName("Test for authentication, user not found")
     void testAuthentication_NoUser() {
         String email = "misha@gmail.com";
 
