@@ -83,7 +83,7 @@ public class TravelPlanningService {
                 .orElseThrow(() -> new ServicesException("There is no service with that name"));
 
         if (Optional.ofNullable(travel.getServices()).isEmpty()) {
-            travel.setServices(List.of(service));
+            travel.setServices(new LinkedList<>());
         }
         travel.getServices().add(service);
         travelRepository.save(travel);
