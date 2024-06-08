@@ -8,12 +8,13 @@ import com.travel.planning.service.TravelPlanningService;
 import com.travel.planning.service.UserDetailsServiceImp;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import jakarta.validation.Valid;
 
 import lombok.AllArgsConstructor;
@@ -109,6 +110,20 @@ public class TravelPlanningController {
     @GetMapping("/travel/all")
     public List<TravelDTO> getTravels() {
         return travelPlanningService.getTravels();
+    }
+
+    @Operation(summary = "Delete all trips that start/end in the specified city, admin authority required",
+            security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponse(responseCode = "200", description = "List of deleted trips", content = @Content(
+            schema = @Schema(implementation = TravelDTO.class),
+            examples = @ExampleObject(value = "{\"departure\":\"Kiev\",\"destination\":\"Warsaw\"," +
+                    "\"travel_time\":\"2024-12-12T12:12:12\",\"services\":[{\"name\":\"Hotel\",\"city\":\"Kiev\"}]}")))
+    @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
+    @ApiResponse(responseCode = "403", description = "Wrong role", content = @Content)
+
+    @DeleteMapping("/travel/delete")
+    public List<TravelDTO> deleteTravels(@RequestBody DeleteRequest deleteRequest) {
+        return travelPlanningService.deleteTrips(deleteRequest);
     }
 
     // http://localhost:8080/swagger-ui/index.html to access swagger

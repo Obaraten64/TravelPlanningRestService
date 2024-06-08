@@ -1,6 +1,7 @@
 package com.travel.planning.service;
 
 import com.travel.planning.configuration.Mapper;
+import com.travel.planning.dto.request.DeleteRequest;
 import com.travel.planning.dto.request.ServiceRequest;
 import com.travel.planning.dto.request.TravelRequest;
 import com.travel.planning.dto.response.ServicesDTO;
@@ -20,6 +21,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,5 +105,21 @@ public class TravelPlanningService {
         return travelRepository.findAll().stream()
                 .map(Mapper::mapToTravelDTO)
                 .toList();
+    }
+
+    @Transactional
+    public List<TravelDTO> deleteTrips(DeleteRequest deleteRequest) {
+        List<Travel> travels = new LinkedList<>();
+        travels.addAll(travelRepository.findAllByDeparture(
+                Cities.builder().name(deleteRequest.getDeparture()).build()));
+        travels.addAll(travelRepository.findAllByDestination(
+                Cities.builder().name(deleteRequest.getDestination()).build()));
+
+        List<TravelDTO> deleted = travels.stream()
+                .map(Mapper::mapToTravelDTO)
+                .toList();
+        travelRepository.deleteAll(travels);
+
+        return deleted;
     }
 }
