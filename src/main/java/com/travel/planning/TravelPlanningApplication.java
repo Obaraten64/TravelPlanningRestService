@@ -5,8 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class TravelPlanningApplication {
-	//TODO: Unit tests
-		//TODO: controller test
 	//TODO: IT test
 	public static void main(String[] args) {
 		SpringApplication.run(TravelPlanningApplication.class, args);
