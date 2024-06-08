@@ -122,7 +122,7 @@ public class TravelPlanningController {
     @ApiResponse(responseCode = "403", description = "Wrong role", content = @Content)
 
     @DeleteMapping("/travel/delete")
-    public List<TravelDTO> deleteTravels(@RequestBody DeleteRequest deleteRequest) {
+    public List<TravelDTO> deleteTravels(@Valid @RequestBody DeleteRequest deleteRequest) {
         return travelPlanningService.deleteTrips(deleteRequest);
     }
 
@@ -136,7 +136,7 @@ public class TravelPlanningController {
     @ApiResponse(responseCode = "403", description = "Wrong role", content = @Content)
 
     @PostMapping("/services/add")
-    public ServicesDTO addService(@RequestBody AddServiceRequest serviceRequest) {
+    public ServicesDTO addService(@Valid @RequestBody AddServiceRequest serviceRequest) {
         return travelPlanningService.addService(serviceRequest);
     }
 
