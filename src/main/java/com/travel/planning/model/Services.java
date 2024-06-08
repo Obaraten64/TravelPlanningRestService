@@ -21,7 +21,4 @@ public class Services {
     @ManyToOne
     @JoinColumn(name = "city", referencedColumnName = "name")
     private Cities city;
-    @ManyToOne
-    @JoinColumn(name = "travel_id")
-    private Travel travel;
 }
