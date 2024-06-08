@@ -22,7 +22,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/register").permitAll()
                         .requestMatchers("/travel/**").hasAnyAuthority(allRoles)
                         .requestMatchers("/services/**").hasAnyAuthority(allRoles)
                         .requestMatchers("/swagger-ui/**").permitAll()

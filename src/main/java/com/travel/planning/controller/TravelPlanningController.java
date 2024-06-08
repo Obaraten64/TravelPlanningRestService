@@ -35,7 +35,7 @@ public class TravelPlanningController {
     @ApiResponse(responseCode = "201", description = "User registered", content = @Content)
     @ApiResponse(responseCode = "400", description = "Wrong role or user already registered", content = @Content)
 
-    @PostMapping("/user/register")
+    @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegistrationRequest registrationRequest) {
         return userDetailsService.register(registrationRequest);
     }
