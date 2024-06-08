@@ -22,9 +22,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -110,7 +108,7 @@ public class TravelPlanningService {
 
     @Transactional
     public List<TravelDTO> deleteTrips(DeleteRequest deleteRequest) {
-        List<Travel> travels = new LinkedList<>();
+        Set<Travel> travels = new HashSet<>();
         travels.addAll(travelRepository.findAllByDeparture(
                 Cities.builder().name(deleteRequest.getDeparture()).build()));
         travels.addAll(travelRepository.findAllByDestination(
